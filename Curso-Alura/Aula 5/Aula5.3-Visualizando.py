@@ -1,10 +1,8 @@
 import numpy as np
 import cv2
 import sys
-from time import sleep
 
 VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Ponte.mp4'
-#VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Auto Estrada - 20090.mp4'
 
 algorithm_types = ['GMG', 'MOG2', 'MOG', 'KNN', 'CNT']
 
@@ -34,32 +32,25 @@ def Filter(img, filter):
     
 def Subtractor(algorithm_type):
     if algorithm_type == 'GMG':
-        return cv2.bgsegm.createBackgroundSubtractorGMG(initializationFrames = 120, 
-                                                        decisionThreshold=0.8)
+        return cv2.bgsegm.createBackgroundSubtractorGMG()
     if algorithm_type == 'MOG':
-        return cv2.bgsegm.createBackgroundSubtractorMOG(history = 100, nmixtures = 5,
-                                                        backgroundRatio = 0.7, 
-                                                        noiseSigma = 0)
+        return cv2.bgsegm.createBackgroundSubtractorMOG()
     if algorithm_type == 'MOG2':
-        return cv2.createBackgroundSubtractorMOG2(history = 500, detectShadows=True,
-                                                varThreshold=100)
+        return cv2.createBackgroundSubtractorMOG2()
     if algorithm_type == 'KNN':
-        return cv2.createBackgroundSubtractorKNN(history=500, dist2Threshold=400, 
-                                                 detectShadows=True)
+        return cv2.createBackgroundSubtractorKNN()
     if algorithm_type == 'CNT':
-        return cv2.bgsegm.createBackgroundSubtractorCNT(minPixelStability=15, 
-                                                        useHistory =True,
-                                                        maxPixelStability=15*60,
-                                                        isParallel=True)
+        return cv2.bgsegm.createBackgroundSubtractorCNT()
     print('Detector inválido')
     sys.exit(1)
     
+    
 #-------------------------------------------------------------------------------------------------------------------------
 
-w_min = 50  # largura minima do retangulo
-h_min = 50  # altura minima do retangulo
-offset = 2  # Erro permitido entre pixel
-linha_ROI = 620  # Posição da linha de contagem
+w_min = 30  # largura minima do retangulo
+h_min = 30  # altura minima do retangulo
+offset = 10  # Erro permitido entre pixel
+linha_ROI = 500  # Posição da linha de contagem
 carros = 0
 
 
@@ -107,14 +98,10 @@ background_subtractor = Subtractor(algorithm_type)  # Pega o fundo e subtrai do 
 
 while True:
     
-    hasFrame, frame = cap.read() # Pega cada frame do vídeo
+    ok, frame = cap.read() # Pega cada frame do vídeo
     
-    if not hasFrame:
+    if not ok:
         break
-    
-    # Fazendo o vídeo ficar um pouco mais lento
-    #tempo = float(1 / delay)
-    #sleep(tempo)  # Dá um delay entre cada processamento
     
     mask = background_subtractor.apply(frame)
     mask = Filter(mask, 'combine')

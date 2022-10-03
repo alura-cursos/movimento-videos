@@ -3,7 +3,7 @@ import cv2
 import sys 
 #from time import sleep
 
-VIDEO = 'Dados/Ponte.mp4'
+VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Ponte.mp4'
 
 #delay = 5
 algorithm_types = ['GMG', 'MOG2', 'MOG', 'KNN', 'CNT']

@@ -2,7 +2,7 @@ import cv2
 import sys
 
 
-VIDEO = 'Dados/Ponte.mp4'
+VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Ponte.mp4'
 
 
 algorithm_types = ['GMG', 'MOG2', 'MOG', 'KNN', 'CNT']

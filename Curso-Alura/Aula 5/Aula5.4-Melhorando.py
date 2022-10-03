@@ -1,10 +1,8 @@
 import numpy as np
 import cv2
 import sys
-from time import sleep
 
 VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Ponte.mp4'
-#VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Auto Estrada - 20090.mp4'
 
 algorithm_types = ['GMG', 'MOG2', 'MOG', 'KNN', 'CNT']
 
@@ -54,10 +52,11 @@ def Subtractor(algorithm_type):
     print('Detector inválido')
     sys.exit(1)
     
+    
 #-------------------------------------------------------------------------------------------------------------------------
 
-w_min = 50  # largura minima do retangulo
-h_min = 50  # altura minima do retangulo
+w_min = 40  # largura minima do retangulo
+h_min = 40  # altura minima do retangulo
 offset = 2  # Erro permitido entre pixel
 linha_ROI = 620  # Posição da linha de contagem
 carros = 0
@@ -107,14 +106,10 @@ background_subtractor = Subtractor(algorithm_type)  # Pega o fundo e subtrai do 
 
 while True:
     
-    hasFrame, frame = cap.read() # Pega cada frame do vídeo
+    ok, frame = cap.read() # Pega cada frame do vídeo
     
-    if not hasFrame:
+    if not ok:
         break
-    
-    # Fazendo o vídeo ficar um pouco mais lento
-    #tempo = float(1 / delay)
-    #sleep(tempo)  # Dá um delay entre cada processamento
     
     mask = background_subtractor.apply(frame)
     mask = Filter(mask, 'combine')

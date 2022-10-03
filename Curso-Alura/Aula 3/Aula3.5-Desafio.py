@@ -14,7 +14,7 @@ TEXT_COLOR = (randint(0, 255), randint(0,255), randint(0,255))
 BORDER_COLOR = (randint(0, 255), randint(0,255), randint(0,255))
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 TEXT_SIZE = 1.2
-VIDEO = 'Dados/Ponte.mp4'
+VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Ponte.mp4'
 TITLE_TEXT_POSITION = (100, 40)
 
 algorithm_types = ['GMG', 'MOG2', 'MOG', 'KNN', 'CNT']

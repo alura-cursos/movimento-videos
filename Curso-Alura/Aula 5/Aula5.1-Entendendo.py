@@ -1,12 +1,14 @@
-import numpy as np 
+import numpy as np
 import cv2
-import sys 
+import sys
+
 
 VIDEO = 'D:/MEI/Portfólio/movement-detection/Dados/Ponte.mp4'
 
 algorithm_types = ['GMG', 'MOG2', 'MOG', 'KNN', 'CNT']
 algorithm_type = algorithm_types[0]
 
+#-------------------------------------------------------------------------------------------------------------------------
 
 def Kernel(KERNEL_TYPE):
     if KERNEL_TYPE == 'dilation':
@@ -29,7 +31,7 @@ def Filter(img, filter):
         opening = cv2.morphologyEx(closing, cv2.MORPH_OPEN, Kernel('opening'), iterations=2)
         dilation = cv2.dilate(opening, Kernel('dilation'), iterations=2)
         return dilation
-
+    
 def Subtractor(algorithm_type):
     if algorithm_type == 'GMG':
         return cv2.bgsegm.createBackgroundSubtractorGMG()
@@ -44,8 +46,33 @@ def Subtractor(algorithm_type):
     print('Detector inválido')
     sys.exit(1)
     
-    
-cap = cv2.VideoCapture(VIDEO)
+#-------------------------------------------------------------------------------------------------------------------------
+
+w_min = 30  # largura minima do retangulo
+h_min = 30  # altura minima do retangulo
+offset = 10  # Erro permitido entre pixel
+linha_ROI = 500  # Posição da linha de contagem
+carros = 0
+
+
+def centroide(x, y, w, h):
+    """
+    :param x: x do objeto
+    :param y: y do objeto
+    :param w: largura do objeto
+    :param h: altura do objeto
+    :return: tupla que contém as coordenadas do centro de um objeto
+    """
+    x1 = w // 2
+    y1 = h // 2
+    cx = x + x1
+    cy = y + y1
+    return cx, cy
+
+#----------------------------------------------------------------------------------
+cap = cv2.VideoCapture(VIDEO) #lendo o vídeo
+fourcc = cv2.VideoWriter_fourcc(*'XVID') #codec do vídeo
+
 background_subtractor = Subtractor(algorithm_type)
 
 
