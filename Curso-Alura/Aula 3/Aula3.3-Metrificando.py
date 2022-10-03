@@ -23,20 +23,31 @@ def Subtractor(algorithm_type):
 
 cap = cv2.VideoCapture(VIDEO)
 background_subtractor = Subtractor(algorithm_type)
-
+e1 = cv2.getTickCount() #conta o número de ciclos de clock no início do processamento 
 
 def main():
+    frame_number = -1
     while (cap.isOpened):
         ok, frame = cap.read()
 
         if not ok:
           print('Frames acabaram!')
           break
+      
+        frame_number += 1
+        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
 
         mask = background_subtractor.apply(frame)
         cv2.imshow('Frame', frame)
         cv2.imshow('Mask', mask)
 
-        if cv2.waitKey(1) & 0xFF == ord("c"):
+        if cv2.waitKey(1) & 0xFF == ord("c") or frame_number > 300:
             break
+
+    e2 = cv2.getTickCount() #conta o número de ciclos de clock no final do processamento 
+    t = (e2 - e1) / cv2.getTickFrequency() #conta o tempo de processamento do vídeo dividindo 
+    # a subtração do valor dos clocks pela frequência, deixando apenas os segundos de processamento
+    print(t)
+    
 main()

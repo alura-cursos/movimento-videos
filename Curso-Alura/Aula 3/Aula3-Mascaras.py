@@ -36,6 +36,8 @@ def main():
           break
 
         frame_number += 1
+        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
 
         mask = background_subtractor.apply(frame)
         #res = cv2.bitwise_and(frame, frame, mask=mask) # colocar em outra aula

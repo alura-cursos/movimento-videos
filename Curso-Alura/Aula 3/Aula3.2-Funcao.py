@@ -32,6 +32,7 @@ def main():
         if not ok:
           print('Frames acabaram!')
           break
+        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
 
         mask = background_subtractor.apply(frame)
         cv2.imshow('Frame', frame)
